@@ -1,6 +1,7 @@
 package com.api.code;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 
@@ -53,5 +54,25 @@ public class BaseHelper {
         response.prettyPrint(); // print the response
         return response;
     }
+
+    /**
+     *
+     * @param urlParam
+     * @param headers
+     * @return
+     */
+    public Response post(String urlParam, Headers headers) {
+        Response response = given().headers(headers).get(urlParam);
+        response.prettyPrint(); // print the response
+        return response;
+    }
+
+    public Response post(String urlParam, Map<String, String> formParams, boolean urlEncodingEnabled)
+    {
+        Response response = given().urlEncodingEnabled(urlEncodingEnabled).contentType(ContentType.URLENC).formParams(formParams)
+                .contentType(ContentType.JSON).post(urlParam);
+        return response;
+    }
+
 
 }
